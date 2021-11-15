@@ -17,6 +17,7 @@ document.querySelector('table tbody').addEventListener
 const addBtn = document.getElementById('add-name-btn');
 const updateBtn = document.getElementById('update-row-btn');
 const searchBtn = document.getElementById('search-btn');
+const cancelUpdateBtn = document.getElementById('cancel-update-btn');
 
 searchBtn.onclick = () => {
   const searchValue = document.getElementById('search-input').value;
@@ -65,6 +66,10 @@ updateBtn.onclick = () => {
   })
 }
 
+cancelUpdateBtn.onclick = () => {
+  const updateSection = document.getElementById('update-row');
+  updateSection.hidden = true;
+}
 
 addBtn.onclick = () => {
   const nameInput = document.getElementById('name-input');

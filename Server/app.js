@@ -12,57 +12,75 @@ app.use(express.json());
 app.use(express.urlencoded({ extended : false }));
 
 // Create
-app.post('/insert', (request, response) => {
+app.post('/insert', async (request, response) => {
   const { name } = request.body;
   const db = dbService.getDbServiceInstance();
-  const result = db.insertNewName(name);
 
-  result
-  .then(data => response.json({ data: data }))
-  .catch(err => console.log(err));
+  try {
+    const result = await db.insertNewName(name);
+    return response.json({ data: result });
+  }
+
+  catch (error) {
+    console.error(error);
+  }
 });
 
 // Read
-app.get('/getAll', (request, response) => {
+app.get('/getAll', async (request, response) => {
   const db = dbService.getDbServiceInstance();
-  const result = db.getAllData();
 
-  result
-  .then(data => response.json({data : data}))
-  .catch(err => console.log(err));
+  try {
+    const result = await db.getAllData();
+    return response.json({ data : result });
+  }
+
+  catch (error) {
+    console.error(error);
+  }
 });
 
 // Update
-app.patch('/update', (request, response) => {
+app.patch('/update', async (request, response) => {
   const { id, name } = request.body;
   const db = dbService.getDbServiceInstance();
-  const result = db.updateNameById(id, name);
+  
+  try {
+    const result = await db.updateNameById(id, name);
+    return response.json({ success : result });
+  }
 
-  result
-  .then(data => response.json({success : data}))
-  .catch(err => console.log(err));
+  catch (error) {
+    console.error(error);
+  }
 });
 
 // Delete
-app.delete('/delete/:id', (request, response) => {
+app.delete('/delete/:id', async (request, response) => {
   const { id } = request.params;
   const db = dbService.getDbServiceInstance();
-  const result = db.deleteRowById(id);
+  try {
+    const result = await db.deleteRowById(id);
+    return response.json({ success : result });
+  }
 
-  result
-  .then(data => response.json({success : data}))
-  .catch(err => console.log(err));
+  catch (error) {
+    console.error(error);
+  }
 });
 
 // Search
-app.get('/search/:name', (request, response) => {
+app.get('/search/:name', async (request, response) => {
   const { name } = request.params;
   const db = dbService.getDbServiceInstance();
-  const result = db.searchByName(name);
+  try {
+    const result = await db.searchByName(name);
+    return response.json({ data : result });
+  }
 
-  result
-  .then(data => response.json({data : data}))
-  .catch(err => console.log(err));
-})
+  catch (error) {
+    console.error(error);
+  }
+});
 
 app.listen(process.env.PORT, () => console.log('App is running'));
